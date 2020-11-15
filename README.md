@@ -1,4 +1,4 @@
-## Небольшое руководство, по настройке Percona Monitoring and Management (PMM) 
+## Небольшое руководство по настройке Percona Monitoring and Management (PMM) 
 
 - Создаем ``pmm-data`` контейнер с базовыми настройками:
 ```
