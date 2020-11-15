@@ -1,5 +1,6 @@
+Небольшое руководство, по настройке Percona Monitoring and Management (PMM) 
 
-first step:
+- Создаем pmm-data контейнер с базовыми настройками:
 docker create \
    -v /opt/prometheus/data \
    -v /opt/consul-data \
@@ -8,6 +9,7 @@ docker create \
    --name pmm-data \
    percona/pmm-server:latest /bin/true
 
+- Запускаем pmm-server для инициализации данных: 
 second step: 
 docker run -d \
   -p 81:80 \
@@ -16,15 +18,12 @@ docker run -d \
   --restart always \
   percona/pmm-server:latest
 
-remove pmm-server container:
-
+- Останавливаем и удаляем pmm-server
   docker stop pmm-server_container
 
   docker rm pmm-server_container
 
-after that сopy volumes files from pmm-data container to host:
-
-copy prometheus data:
+- Копируем файлы томов локально на хост:
 
   docker cp id_pmm-data_container:/opt/prometheus/ /your/prometheus/data/on/host
 
@@ -40,5 +39,21 @@ copy grafana data:
 
   docker cp id_pmm-data_container:/var/lib/grafana /your/grafana/data/on/host
 
-after thatneed delete pmm-data container:
+- Останавливаем и удаляем pmm-data контейнер:
   docker rm pmm-data_container
+
+- Последним шагом указываем тома для pmm-date: 
+version: '2'
+
+services:
+  pmm-data:
+    image: percona/pmm-server:latest
+    container_name: pmm-data
+    volumes:
+      - /your/host/prometheus/data:/opt/prometheus/data
+      - /your/host/consul-data:/opt/consul-data
+      - /your/host/mysql:/var/lib/mysql
+      - /your/host/grafana:/var/lib/grafana
+    entrypoint: /bin/true
+
+- docker-compose up -d
