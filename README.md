@@ -1,6 +1,6 @@
-Небольшое руководство, по настройке Percona Monitoring and Management (PMM) 
+## Небольшое руководство, по настройке Percona Monitoring and Management (PMM) 
 
-- Создаем pmm-data контейнер с базовыми настройками:
+- Создаем ``pmm-data`` контейнер с базовыми настройками:
 ```
 docker create \
    -v /opt/prometheus/data \
@@ -10,7 +10,7 @@ docker create \
    --name pmm-data \
    percona/pmm-server:latest /bin/true
 ```
-- Запускаем pmm-server для инициализации данных: 
+- Запускаем ```pmm-server``` для инициализации данных: 
 ```
 docker run -d \
   -p 81:80 \
@@ -20,7 +20,7 @@ docker run -d \
   percona/pmm-server:latest
 ```
 
-- Останавливаем и удаляем pmm-server
+- Останавливаем и удаляем ```pmm-server```
 ```
   docker stop pmm-server_container
 
@@ -42,7 +42,7 @@ copy grafana data:
 ```
   docker cp id_pmm-data_container:/var/lib/grafana /your/grafana/data/on/host
 ```
-- Останавливаем и удаляем pmm-data контейнер:
+- Останавливаем и удаляем ```pmm-data``` контейнер:
 ```
   docker rm pmm-data_container
 ```
